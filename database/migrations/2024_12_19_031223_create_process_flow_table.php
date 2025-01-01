@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('process', function (Blueprint $table) {
+        Schema::create('processes', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('description')->nullable();
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->foreignId('process_id')
-                ->constrained('process')
+                ->constrained('processes')
                 ->onDelete('cascade');
 
             $table->timestamps();
@@ -46,7 +46,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->foreignId('process_id')
-                ->constrained('process')
+                ->constrained('processes')
                 ->onDelete('cascade');
 
             $table->foreignId('process_column_id')
@@ -68,7 +68,7 @@ return new class extends Migration
                 ->onDelete('cascade');
 
             $table->foreignId('process_id')
-                ->constrained('process')
+                ->constrained('processes')
                 ->onDelete('cascade');
 
             $table->foreignId('process_column_id')
@@ -88,6 +88,6 @@ return new class extends Migration
         Schema::dropIfExists('cards');
         Schema::dropIfExists('customer');
         Schema::dropIfExists('process_columns');
-        Schema::dropIfExists('process');
+        Schema::dropIfExists('processes');
     }
 };
