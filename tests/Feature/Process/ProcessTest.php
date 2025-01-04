@@ -7,7 +7,7 @@ use App\Models\ProcessColumn;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class CreateProcessTest extends TestCase
+class ProcessTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -26,23 +26,21 @@ class CreateProcessTest extends TestCase
         ])
             ->assertSuccessful()
             ->assertJsonStructure([
-                'data',
+                'data' => Process::getStructure(),
             ]);
 
         $this->assertDatabaseHas('processes', [
-            'id'          => $response->json('data.id'),
+            'uuid'        => $response->json('data.uuid'),
             'name'        => 'Test Process',
             'description' => 'Test Description',
         ]);
 
         $this->assertDatabaseHas('process_columns', [
-            'process_id' => $response->json('data.id'),
-            'name'       => 'Column 1',
+            'name' => 'Column 1',
         ]);
 
         $this->assertDatabaseHas('process_columns', [
-            'process_id' => $response->json('data.id'),
-            'name'       => 'Column 2',
+            'name' => 'Column 2',
         ]);
     }
 
@@ -74,12 +72,7 @@ class CreateProcessTest extends TestCase
             ]),
             $requestData
         )->assertSuccessful()->assertJsonStructure([
-            'data' => [
-                'id',
-                'name',
-                'description',
-                'columns',
-            ],
+            'data' => Process::getStructure(),
         ]);
 
         $this->assertDatabaseHas('processes', [
@@ -104,5 +97,20 @@ class CreateProcessTest extends TestCase
         ]);
 
         $this->assertDatabaseCount('process_columns', 3);
+    }
+
+    public function test_list_all_processes(): void
+    {
+        Process::factory()->hasColumns(3)->count(5)->create();
+
+        $response = $this->get(route('api.v1.process.list'))
+            ->assertSuccessful()
+            ->assertJsonCount(5, 'data')
+            ->assertJsonCount(15, 'data.*.columns.*')
+            ->assertJsonStructure([
+                'data' => [
+                    '*' => Process::getStructure(),
+                ],
+            ]);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Process\CreateProcessController;
+use App\Http\Controllers\Process\ListProcessesController;
 use App\Http\Controllers\Process\UpdateProcessController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -12,6 +13,7 @@ Route::get('/user', function (Request $request) {
 Route::prefix('v1/')->name('api.v1.')->group(function () {
     Route::prefix('process')->name('process.')->group(function () {
         Route::post('create', [CreateProcessController::class, 'store'])->name('create');
-        Route::put('update/{uuid}', [UpdateProcessController::class, 'update'])->name('update');
+        Route::put('update/{uuid}', [UpdateProcessController::class, 'update'])->name(name: 'update');
+        Route::get('list', [ListProcessesController::class, 'index'])->name('list');
     });
 });

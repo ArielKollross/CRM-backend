@@ -17,8 +17,12 @@ class ProcessResource extends JsonResource
         $this->load('columns');
         $resource = parent::toArray($request);
 
-        $resource['id'] = $this->uuid;
-        unset($resource['uuid']);
+        unset($resource['id']);
+
+        foreach ($resource['columns'] as $key => $column) {
+            unset($resource['columns'][$key]['id']);
+            unset($resource['columns'][$key]['process_id']);
+        }
 
         return $resource;
     }
