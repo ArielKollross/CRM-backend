@@ -14,6 +14,12 @@ class ProcessResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        $this->load('columns');
+        $resource = parent::toArray($request);
+
+        $resource['id'] = $this->uuid;
+        unset($resource['uuid']);
+
+        return $resource;
     }
 }

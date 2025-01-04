@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('processes', function (Blueprint $table) {
             $table->id();
+            $table->uuid()->unique();
             $table->string('name');
             $table->string('description')->nullable();
 
@@ -22,6 +23,7 @@ return new class extends Migration
 
         Schema::create('process_columns', function (Blueprint $table) {
             $table->id();
+            $table->uuid()->unique();
             $table->string('name');
             $table->foreignId('process_id')
                 ->constrained('processes')
@@ -33,6 +35,7 @@ return new class extends Migration
 
         Schema::create('customer', function (Blueprint $table) {
             $table->id();
+            $table->uuid()->unique();
             $table->string('name');
             $table->string('email')->unique()->nullable();
             $table->string('phone')->nullable();
@@ -44,6 +47,7 @@ return new class extends Migration
 
         Schema::create('cards', function (Blueprint $table) {
             $table->id();
+            $table->uuid()->unique();
             $table->string('title');
             $table->foreignId('process_id')
                 ->constrained('processes')

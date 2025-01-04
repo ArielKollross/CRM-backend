@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Process;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreProcessRequest;
+use App\Http\Requests\Process\StoreRequest;
 use App\Http\Resources\ProcessResource;
 use App\Models\Process;
 
 class CreateProcessController extends Controller
 {
-    public function store(StoreProcessRequest $request)
+    public function store(StoreRequest $request)
     {
         $data = $request->validated();
 
