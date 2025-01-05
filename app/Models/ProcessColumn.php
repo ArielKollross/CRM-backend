@@ -13,6 +13,7 @@ class ProcessColumn extends Model
 
     protected $fillable = [
         'name',
+        'description',
         'process_id',
     ];
 

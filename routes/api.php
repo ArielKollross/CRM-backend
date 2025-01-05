@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Card\CreateCardController;
+use App\Http\Controllers\Card\ListCardsController;
 use App\Http\Controllers\Process\CreateProcessController;
 use App\Http\Controllers\Process\ListProcessesController;
 use App\Http\Controllers\Process\UpdateProcessController;
@@ -15,5 +17,10 @@ Route::prefix('v1/')->name('api.v1.')->group(function () {
         Route::post('create', [CreateProcessController::class, 'store'])->name('create');
         Route::put('update/{uuid}', [UpdateProcessController::class, 'update'])->name(name: 'update');
         Route::get('list', [ListProcessesController::class, 'index'])->name('list');
+    });
+
+    Route::prefix('card')->name('card.')->group(function () {
+        Route::post('create', [CreateCardController::class, 'store'])->name('create');
+        Route::get('list', [ListCardsController::class, 'index'])->name('list');
     });
 });

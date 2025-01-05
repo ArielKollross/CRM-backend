@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->uuid()->unique();
             $table->string('name');
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
@@ -25,6 +25,8 @@ return new class extends Migration
             $table->id();
             $table->uuid()->unique();
             $table->string('name');
+            $table->text('description')->nullable();
+
             $table->foreignId('process_id')
                 ->constrained('processes')
                 ->onDelete('cascade');
@@ -33,13 +35,14 @@ return new class extends Migration
             $table->softDeletes();
         });
 
-        Schema::create('customer', function (Blueprint $table) {
+        Schema::create('customers', function (Blueprint $table) {
             $table->id();
             $table->uuid()->unique();
             $table->string('name');
             $table->string('email')->unique()->nullable();
             $table->string('phone')->nullable();
             $table->string('document')->unique()->nullable();
+            $table->text('address')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
@@ -49,16 +52,21 @@ return new class extends Migration
             $table->id();
             $table->uuid()->unique();
             $table->string('title');
+            $table->text('description')->nullable();
+
             $table->foreignId('process_id')
+                ->nullable()
                 ->constrained('processes')
                 ->onDelete('cascade');
 
             $table->foreignId('process_column_id')
+                ->nullable()
                 ->constrained('process_columns')
                 ->onDelete('cascade');
 
             $table->foreignId('customer_id')
-                ->constrained('customer')
+                ->nullable()
+                ->constrained('customers')
                 ->onDelete('cascade');
 
             $table->timestamps();
@@ -90,7 +98,7 @@ return new class extends Migration
     {
         Schema::dropIfExists('card_histories');
         Schema::dropIfExists('cards');
-        Schema::dropIfExists('customer');
+        Schema::dropIfExists('customers');
         Schema::dropIfExists('process_columns');
         Schema::dropIfExists('processes');
     }

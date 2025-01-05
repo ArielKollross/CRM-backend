@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasStructure;
 use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,10 +10,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Card extends Model
 {
-    use HasFactory, HasUuid, SoftDeletes;
+    use HasFactory, HasStructure, HasUuid, SoftDeletes;
 
     protected $fillable = [
         'title',
+        'description',
         'process_id',
         'process_column_id',
         'customer_id',
